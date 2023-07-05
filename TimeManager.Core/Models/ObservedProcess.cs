@@ -9,7 +9,7 @@
 
         public DateTime ClosedAt { get; set; }
 
-        public DateTime TotalSpend { get; set; }
+        public TimeSpan TotalSpent { get; set; }
 
         public string Name { get; set; }
 
