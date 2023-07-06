@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeManager.Core", "TimeManager.Core\TimeManager.Core.csproj", "{1C003A54-AF65-499E-9D10-702602EAAC8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeManager.Core", "TimeManager.Core\TimeManager.Core.csproj", "{1C003A54-AF65-499E-9D10-702602EAAC8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeManager.Database", "TimeManager.Database\TimeManager.Database.csproj", "{147256A5-D710-4370-8E18-FF5606C6BF79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeManager.WPF", "TimeManager.WPF\TimeManager.WPF.csproj", "{A3F7728E-C5B8-42CA-BA95-79714BF3712A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{1C003A54-AF65-499E-9D10-702602EAAC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C003A54-AF65-499E-9D10-702602EAAC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C003A54-AF65-499E-9D10-702602EAAC8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{147256A5-D710-4370-8E18-FF5606C6BF79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{147256A5-D710-4370-8E18-FF5606C6BF79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{147256A5-D710-4370-8E18-FF5606C6BF79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{147256A5-D710-4370-8E18-FF5606C6BF79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3F7728E-C5B8-42CA-BA95-79714BF3712A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3F7728E-C5B8-42CA-BA95-79714BF3712A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3F7728E-C5B8-42CA-BA95-79714BF3712A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3F7728E-C5B8-42CA-BA95-79714BF3712A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,6 @@
-﻿namespace TimeManager.Core.Models
+﻿using System.Diagnostics;
+
+namespace TimeManager.Core.Models
 {
     public class ObservedProcess
     {
