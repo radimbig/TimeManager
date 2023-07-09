@@ -7,28 +7,28 @@ namespace TimeManager.Database.Commands
     {
         ObservedProcess _target;
 
-        UpdateObservedProcessCommand(ObservedProcess process)
+        public UpdateObservedProcessCommand(ObservedProcess process)
         {
             _target = process;
         }
 
         public void Execute()
         {
-            /*            using (var ctx = new TimeManagerDbContext())
-                        {
-                            if (!ctx.ObservedProcesses.Any(x => x.Name == _target.Name))
-                            {
-                                throw new Exception($"No any observed process with name {_target.Name} in database to update");
-                            }
-                            var similar = ctx.ObservedProcesses.FirstOrDefault(x => x.Name == _target.Name);
-                            if (similar is null)
-                            {
-                                throw new Exception("Db connection error");
-                            }
-                            _target.Id = similar.Id;
-            
-                        }*/
-            throw new NotImplementedException();
+            using(var ctx = new TimeManagerDbContext())
+            {
+                if(!ctx.ObservedProcesses.Any(x=>x.Name == _target.Name))
+                {
+                    throw new Exception($"No any observed process with name{_target.Name}");
+                }
+                var dbInstance = ctx.ObservedProcesses.FirstOrDefault(x=>x.Name == _target.Name);
+                if(dbInstance == null) 
+                {
+                    throw new Exception("Db error");
+                }
+                _target.Id = dbInstance.Id;
+                ctx.ObservedProcesses.Entry(dbInstance).CurrentValues.SetValues(_target);
+                ctx.SaveChanges();
+            }
         }
     }
 }

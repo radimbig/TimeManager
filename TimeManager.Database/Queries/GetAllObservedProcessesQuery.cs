@@ -3,7 +3,7 @@ using TimeManager.Database.Interfaces;
 
 namespace TimeManager.Database.Queries
 {
-    internal class GetAllObservedProcessesQuery : ITimeManagerQuery<IEnumerable<ObservedProcess>>
+    public class GetAllObservedProcessesQuery : ITimeManagerQuery<IEnumerable<ObservedProcess>>
     {
         public IEnumerable<ObservedProcess> Execute()
         {

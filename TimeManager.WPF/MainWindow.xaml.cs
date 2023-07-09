@@ -15,8 +15,8 @@ namespace TimeManager.WPF
     {
         private ICollectionView ProcessesFiltred;
         MainStore Store = new();
-        private DispatcherTimer timer = new();
-
+        private DispatcherTimer timerForProcesses = new();
+        private DispatcherTimer SaveChangesTimer = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -25,22 +25,42 @@ namespace TimeManager.WPF
             ProcessesFiltred = CollectionViewSource.GetDefaultView(Store.Processes);
             ProcessesListView.ItemsSource = ProcessesFiltred;
             ObservedProcessesListView.ItemsSource = Store.ObservedProcesses;
-            // timer
-            timer.Interval = TimeSpan.FromSeconds(5);
-            timer.Tick += (_, _) =>
+            // timer for processes
+            timerForProcesses.Interval = TimeSpan.FromSeconds(5);
+            timerForProcesses.Tick += (_, _) =>
             {
                 Store.LoadProcessList();
             };
-            timer.Start();
+            timerForProcesses.Start();
+            // timer for saving changes every 60 seconds
+            SaveChangesTimer.Interval = TimeSpan.FromSeconds(60);
+            SaveChangesTimer.Tick += (_, _) =>
+            {
+                Store.SaveChanges();
+            };
+            SaveChangesTimer.Start();
             // events
             IsVisibleChanged += (_, _) =>
             {
                 if (IsVisible)
-                    timer.Start();
+                    timerForProcesses.Start();
                 else
-                    timer.Stop();
+                    timerForProcesses.Stop();
+            };
+            Closed += (_, _) =>
+            {
+                Store.CloseUnclosed();
+                Store.StopObservingAll();
+                Store.SaveChanges();
+            };
+            AppDomain.CurrentDomain.ProcessExit += (_, _) =>
+            {
+                Store.CloseUnclosed();
+                Store.StopObservingAll();
+                Store.SaveChanges();
             };
         }
+
 
         private void OnButtonAddObserver(object sender, RoutedEventArgs e)
         {
