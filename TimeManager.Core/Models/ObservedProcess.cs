@@ -1,17 +1,17 @@
 ﻿using System.Diagnostics;
-
+using TimeManager.Core.Interfaces;
 namespace TimeManager.Core.Models
 {
-    public class ObservedProcess
+    public class ObservedProcess : IObservedProcess
     {
         public int Id { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public virtual DateTime CreatedAt { get; set; }
 
-        public DateTime OpenedAt { get; set; }
+        public virtual DateTime OpenedAt { get; set; }
 
-        public DateTime ClosedAt { get; set; }
+        public virtual DateTime ClosedAt { get; set; }
 
-        public TimeSpan TotalSpent { get; set; }
+        public virtual TimeSpan TotalSpent { get; set; }
 
         public string Name { get; set; }
 
@@ -21,4 +21,5 @@ namespace TimeManager.Core.Models
             CreatedAt = DateTime.Now;
         }
     }
+
 }

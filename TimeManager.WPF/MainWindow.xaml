@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TimeManager.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -12,23 +11,29 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListView Grid.Column="0" HorizontalContentAlignment="Stretch" Name="processListView" ItemsSource="{Binding Processes}">
-            <ListView.View>
-                <GridView >
-                    <GridViewColumn Width="auto" Header="Process Name"  DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="auto" Header="Process ID" DisplayMemberBinding="{Binding Id}"  />
-                    <GridViewColumn  Width="auto" Header="" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="+" Click="Button_Click" CommandParameter="{Binding Name}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <!-- Add more columns as needed -->
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <ListView Grid.Column="1" Grid.ColumnSpan="2" ItemsSource ="{Binding ObservedProcesses}">
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20px" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBox TextChanged="SearchQueryChanged" Grid.Row="0" Name="SearchQuery" Text="" />
+            <ListView Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" Name="ProcessesListView">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="auto" Header="Process Name"   DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Width="auto" Header="Process ID" DisplayMemberBinding="{Binding Id}"  />
+                        <GridViewColumn  Width="auto" Header="">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="+" Click="OnButtonAddObserver" CommandParameter="{Binding Name}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <ListView Grid.Column="1" Grid.ColumnSpan="2" Name="ObservedProcessesListView" ItemsSource ="{Binding ObservedProcesses}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="auto" Header="Process name"  DisplayMemberBinding="{Binding Name}" />
@@ -38,6 +43,7 @@
                     <GridViewColumn  Width="auto" Header="" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
+                                
                                 <Button Content="-" Click="RemoveObserving" CommandParameter="{Binding Name}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

@@ -2,17 +2,18 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.WebSockets;
+using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
 using TimeManager.Core.Models;
-
+using TimeManager.WPF.ViewModels;
 namespace TimeManager.WPF.Store
 {
     public class MainStore
     {
 
         public ObservableCollection<ProcessItem> Processes { get; set; } = new();
+
+        public Timer timer = new(5000);        
 
         public ObservableCollection<ObservedProcess> ObservedProcesses { get; set; } = new();
 
@@ -24,6 +25,7 @@ namespace TimeManager.WPF.Store
         }
         public void LoadProcessList()
         {
+            Processes.Clear();
             var processes = Process.GetProcesses();
             foreach (var process in processes)
             {
@@ -36,10 +38,14 @@ namespace TimeManager.WPF.Store
                 Processes.Add(item);
             }
         }
-
+        
         public void AddObservedProcess(string processName)
         {
-            var tempProcess = new ObservedProcess(processName);
+            if (ObservedProcesses.Any(x=>x.Name == processName))
+            {
+                return;
+            }
+            var tempProcess = new ObservedProcessVM(processName);
             tempProcess.OpenedAt = SetStartUpTimeOrReturnDefaultValue(processName);
             ObservedProcesses.Add(tempProcess);
             ProcessObservers.Add(new ProcessObserver(tempProcess, OnProcessClosed, OnProcessOpened));
@@ -84,6 +90,7 @@ namespace TimeManager.WPF.Store
         public void OnProcessClosed(ProcessObserver observer, ObservedProcess observedProcess, DateTime closedTime)
         {
             observedProcess.ClosedAt = closedTime;
+            observedProcess.TotalSpent += observedProcess.ClosedAt - observedProcess.OpenedAt;
             MessageBox.Show($"observer notices that {observedProcess.Name} was closed at {closedTime}");
         }
         public void OnProcessOpened(ProcessObserver observer, ObservedProcess observedProcess, DateTime openedTime)
@@ -93,9 +100,6 @@ namespace TimeManager.WPF.Store
             MessageBox.Show($"observer notices that {observedProcess.Name} was opened at {openedTime}");
         }
     }
-    public class ProcessItem
-    {
-        public string Name { get; set; } = null!;
-        public int Id { get; set; }
-    }
+    
+
 }

@@ -4,7 +4,7 @@ namespace TimeManager.Core.Models
 {
     public class ProcessObserver : IDisposable
     {
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource cancellationTokenSource = new();
         public ObservedProcess TargetProcess { get; private set; }
         public event Action<ProcessObserver, ObservedProcess, DateTime>? OnProcessClosed;
         public event Action<ProcessObserver, ObservedProcess, DateTime>? OnProcessStarted;
