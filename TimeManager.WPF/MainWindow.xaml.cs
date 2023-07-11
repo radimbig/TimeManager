@@ -6,6 +6,12 @@ using System.Windows.Data;
 using System.Windows.Threading;
 using TimeManager.WPF.Store;
 using TimeManager.WPF.StartUpManager;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Drawing;
+using System.Reflection;
+using System.Diagnostics;
+
 namespace TimeManager.WPF
 {
     /// <summary>
@@ -14,6 +20,7 @@ namespace TimeManager.WPF
     public partial class MainWindow : Window
     {
         public const string AppName = "TimeManager";
+        public const string PathToIcon = "";
         private ICollectionView ProcessesFiltred;
         MainStore Store = new();
         private DispatcherTimer timerForProcesses = new();
@@ -22,6 +29,9 @@ namespace TimeManager.WPF
         public MainWindow()
         {
             InitializeComponent();
+            SetUpNotifyIcon(notifyIcon);
+            Hide();
+            ShowInTaskbar = false;
             DataContext = Store;
             // Datacontexts
             ProcessesFiltred = CollectionViewSource.GetDefaultView(Store.Processes);
@@ -37,6 +47,39 @@ namespace TimeManager.WPF
             SaveChangesTimer.Start();
             // events
             SetOnHideCloseEvents();
+        }
+
+        public void SetUpNotifyIcon(System.Windows.Forms.NotifyIcon notifyIcon)
+        {
+            void ShowWindow()
+            {
+                Show();
+                WindowState = WindowState.Normal;
+                ShowInTaskbar = true;
+                notifyIcon.Visible = false;
+            }
+            notifyIcon.Icon = GetCurrentIcon();
+            notifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
+            notifyIcon.ContextMenuStrip.Items.Add("Open", null, (_,_) => { ShowWindow(); });
+            notifyIcon.ContextMenuStrip.Items.Add("Exit", null, (_, _) => { Close(); });
+            notifyIcon.Visible = true;
+        }
+
+        public Icon GetCurrentIcon()
+        {
+            string? pathToFile = Process.GetCurrentProcess()?.MainModule?.FileName;
+            if (pathToFile == null)
+            {
+                MessageBox.Show("Error has ocured!");
+                Close();
+                throw new Exception("No process");
+            }
+            var ico = System.Drawing.Icon.ExtractAssociatedIcon(pathToFile);
+            if(ico == null)
+            {
+                throw new Exception("No ico was set");
+            }
+            return ico;
         }
 
         public void SetAutoProcessesLoading(DispatcherTimer timer, int delay = 5)
@@ -57,16 +100,33 @@ namespace TimeManager.WPF
             };
         }
 
-
-
+        
         public void SetOnHideCloseEvents()
         {
+            /*Application.Current.Activated += (_, _) =>
+            {
+                if(WindowState == WindowState.Minimized)
+                {
+                    Hide();
+                    notifyIcon.Visible = true;
+                    ShowInTaskbar = false;
+                }
+            };*/
+            
             IsVisibleChanged += (_, _) =>
             {
                 if (IsVisible)
+                {
+                    ShowInTaskbar = true;
+                    notifyIcon.Visible = false;
                     timerForProcesses.Start();
+                }
                 else
+                {
+                    ShowInTaskbar = false;
+                    notifyIcon.Visible = true;
                     timerForProcesses.Stop();
+                }
             };
             Closed += (_, _) =>
             {
@@ -138,6 +198,22 @@ namespace TimeManager.WPF
                 return;
             }
             StartUpManager.StartUpManager.SetStartUp(AppName, false);
+        }
+
+        private void OnWindowStateChanged(object sender, EventArgs e)
+        {
+            if(WindowState == WindowState.Minimized)
+            {
+                ShowInTaskbar = false;
+                notifyIcon.Visible = true;
+                return;
+            }
+            if(WindowState == WindowState.Normal)
+            {
+                ShowInTaskbar = true;
+                notifyIcon.Visible = false;
+                return;
+            }
         }
     }
 }

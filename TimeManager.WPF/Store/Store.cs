@@ -49,7 +49,14 @@ namespace TimeManager.WPF.Store
             var observedProcessesFromDb = new GetAllObservedProcessesQuery().Execute().ToList();
             foreach (var item in observedProcessesFromDb)
             {
-                ObservedProcesses.Add(item);
+                ObservedProcesses.Add(new ObservedProcessVM(item.Name)
+                {
+                    ClosedAt = item.ClosedAt,
+                    CreatedAt = item.CreatedAt,
+                    TotalSpent = item.TotalSpent,
+                    Name = item.Name,
+                    OpenedAt = item.OpenedAt
+                }); 
                 var observer = new ProcessObserver(
                     item,
                     onProcessClosedAction: OnProcessClosed,

@@ -47,6 +47,14 @@ namespace TimeManager.WPF.ViewModels
         public ObservedProcessVM(string name)
             : base(name) { }
 
+        public ObservedProcessVM(ObservedProcess observedProcess):base(observedProcess.Name)
+        {
+            CreatedAt = observedProcess.CreatedAt;
+            TotalSpent = observedProcess.TotalSpent;
+            OpenedAt = observedProcess.OpenedAt;
+            ClosedAt = observedProcess.ClosedAt;
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void NotifyOfPropertyChanged(string propertyName)
