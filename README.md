@@ -5,14 +5,14 @@ This is a Time manager project built using .NET Core and Entity Framework. The A
 2. Go to the folder `cd TimeManager`
 3. Run `dotnet restore` to install the necessary dependencies
 # Usage💡
-`dotnet run` in repository folder to run the TimeManager
+`dotnet run` in repository folder to build and run the TimeManager
 ## Features 🔍
-Start with windows ✅
-Search in processes ✅
-List of observed processes ✅
-SqlLite db ✅
+Start with windows ✅\
+Search in processes ✅\
+List of observed processes ✅\
+SQL Lite db ✅\
 AutoSaving ✅
 ## Used technologies 🖥️
 WPF\
 Entity Framework\
-SQL Lite Database\
+SQL Lite Database
