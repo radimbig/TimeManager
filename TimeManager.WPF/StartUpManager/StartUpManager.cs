@@ -18,7 +18,8 @@ namespace TimeManager.WPF.StartUpManager
                 }
                 if(status)
                 {
-                    key.SetValue(appName, Assembly.GetExecutingAssembly().Location.Replace("/", "\\"));
+                    string pathToExe = Assembly.GetExecutingAssembly().Location.Replace("/", "\\").Replace("dll","exe");
+                    key.SetValue(appName, pathToExe);
                     return;
                 }
                 key.DeleteValue(appName, false);
