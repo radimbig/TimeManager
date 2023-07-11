@@ -5,7 +5,14 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Src\Icon\ProgramIco.ico</ApplicationIcon>
+    <UseWindowsForms>True</UseWindowsForms>
+    <AssemblyName>TimeManager</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Src\Icon\ProgramIco.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TimeManager.Core\TimeManager.Core.csproj" />

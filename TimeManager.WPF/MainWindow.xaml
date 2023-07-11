@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="TimeManager" Height="450" Width="750">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -33,23 +33,30 @@
                 </ListView.View>
             </ListView>
         </Grid>
-        <ListView Grid.Column="1" Grid.ColumnSpan="2" Name="ObservedProcessesListView" ItemsSource ="{Binding ObservedProcesses}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="auto" Header="Process name"  DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="auto" Header="Started at"  DisplayMemberBinding="{Binding OpenedAt}" />
-                    <GridViewColumn Width="auto" Header="Closed at "  DisplayMemberBinding="{Binding ClosedAt}" />
-                    <GridViewColumn Width="auto" Header="TotalSpent H"  DisplayMemberBinding="{Binding TotalSpent}" />
-                    <GridViewColumn  Width="auto" Header="" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                
-                                <Button Content="-" Click="RemoveObserving" CommandParameter="{Binding Name}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Grid Grid.Column="1" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20px" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <CheckBox FlowDirection="RightToLeft" Margin="0,0,5,0" Grid.Row="0" Name="IsStartUpEnabledCheckBox" Checked="OnStartUpCheckBoxChanged" Content="Start with windows" HorizontalAlignment="Right" />
+            <ListView Grid.Row="1" Name="ObservedProcessesListView" ItemsSource ="{Binding ObservedProcesses}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="auto" Header="Process name"  DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Width="auto" Header="Started at"  DisplayMemberBinding="{Binding OpenedAt}" />
+                        <GridViewColumn Width="auto" Header="Closed at "  DisplayMemberBinding="{Binding ClosedAt}" />
+                        <GridViewColumn Width="auto" Header="TotalSpent H"  DisplayMemberBinding="{Binding TotalSpent}" />
+                        <GridViewColumn  Width="auto" Header="" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+
+                                    <Button Content="-" Click="RemoveObserving" CommandParameter="{Binding Name}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Grid>
 </Window>
